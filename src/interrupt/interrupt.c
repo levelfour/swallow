@@ -3,6 +3,14 @@
 
 KEYBUF keybuf;
 
+const char keytable[0x54] =
+	"\0\0001234567890-^\0\0"
+	"qwertyuiop@[\0\0"
+	"asdfghjkl;:\0\0]"
+	"zxcvbnm,./\0*\0 "
+	"\0\0\0\0\0\0\0\0\0\0\0\0\0"
+	"789-456+1230.";
+
 void init_pic() {
 	out(PIC0_IMR, 0xff);	// すべての割り込みを受け付けない
 	out(PIC1_IMR, 0xff);	// すべての割り込みを受け付けない
@@ -50,5 +58,6 @@ bool is_keyupdated() {
 unsigned char get_keycode() {
 	if(!is_keyupdated() || keybuf.length <= 0) return 0;
 	if(keybuf.read >= KEYBUF_SIZE) keybuf.read = 0;
+	keybuf.length--;
 	return keybuf.data[keybuf.read++];
 }

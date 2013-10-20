@@ -25,7 +25,9 @@ void _kernel_entry(uint magic, MULTIBOOT_INFO *info) {
 	while(1) {
 		if(is_keyupdated()) {
 			cli();
-			printf("%x ", get_keycode()); 
+			unsigned char c = get_keycode();
+			if(c < 0x80) printf("%c", keytable[c]);
+			if(c == 0x1c) printf("\n>>> ");
 			sti();
 		}
 		asm("hlt");

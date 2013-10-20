@@ -40,4 +40,6 @@ void inthandler21(int *esp);
 bool is_keyupdated();
 unsigned char get_keycode();
 
+const char keytable[0x54];
+
 #endif // __INTERRUPT_H
