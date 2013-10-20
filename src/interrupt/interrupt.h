@@ -3,10 +3,12 @@
 
 #include "types.h"
 
+#define KEYBUF_SIZE		32
+
 typedef struct {
-	unsigned char data[32];
-	int pointer;
-	bool updated;
+	unsigned char data[KEYBUF_SIZE];
+	int read, write; // pointer
+	int length;
 } KEYBUF;
 
 // number of ports

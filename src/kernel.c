@@ -3,6 +3,7 @@
 #include "video.h"
 #include "gdt.h"
 #include "idt.h"
+#include "asm_func.h"
 #include "interrupt.h"
 
 char message[] = 
@@ -23,7 +24,9 @@ void _kernel_entry(uint magic, MULTIBOOT_INFO *info) {
 	printf(">>> ");
 	while(1) {
 		if(is_keyupdated()) {
+			cli();
 			printf("%x ", get_keycode()); 
+			sti();
 		}
 		asm("hlt");
 	}
