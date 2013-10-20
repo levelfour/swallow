@@ -1,9 +1,18 @@
 .code32
 
+.global sti, cli
 .global load_gdtr, load_idtr
 .global out, in
 
 .text
+sti:
+	sti
+	ret
+
+cli:
+	cli
+	ret
+
 load_gdtr:
 	lgdt 4(%esp)
 	movw $0x10, %ax

@@ -4,6 +4,8 @@
 #include "gdt.h"
 #include "idt.h"
 
+void sti();
+void cli();
 void load_gdtr(GDTR gdtr);
 void load_idtr(IDTR idtr);
 //void load_idtr(int size, void *base);

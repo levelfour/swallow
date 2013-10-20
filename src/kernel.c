@@ -3,7 +3,7 @@
 #include "video.h"
 #include "gdt.h"
 #include "idt.h"
-#include "asm_func.h"
+#include "interrupt.h"
 
 char message[] = 
 	"********** Welcome to myOS **********\n\n"
@@ -12,21 +12,18 @@ char message[] =
 
 void _kernel_entry(uint magic, MULTIBOOT_INFO *info) {
 	init_screen();
+	set_cursor(CURSOR_DEFAULT, CURSOR_DEFAULT, COLOR_LIGHT_CYAN, CURSOR_DEFAULT);
 	printf(message);
-	set_cursor(CURSOR_DEFAULT, CURSOR_DEFAULT, COLOR_LIGHT_GREEN, CURSOR_DEFAULT);
 
 	set_segment_descriptor_table();
 	set_interrupt_descriptor_table();
 	init_pic();
-
-	__asm__ __volatile__ ("sti");
-	out(PIC0_IMR, 0xfd);
+	init_interrupt();
 
 	printf(">>> ");
 	while(1) {
-		if(keybuf.updated = true) {
-			printf("%x ", keybuf.data[keybuf.pointer]);
-			keybuf.updated = false;
+		if(is_keyupdated()) {
+			printf("%x ", get_keycode()); 
 		}
 		asm("hlt");
 	}

@@ -13,7 +13,7 @@ OBJSRC=../obj
 ASMOBJS=$(OBJSRC)/asm_func.o $(OBJSRC)/inthandler.o
 VIDEOOBJS=$(OBJSRC)/video.o
 DESCOBJS=$(OBJSRC)/gdt.o $(OBJSRC)/idt.o
-INTOBJS=
+INTOBJS=$(OBJSRC)/interrupt.o
 BOOTOBJS=$(OBJSRC)/boot.o $(OBJSRC)/kernel.o $(ASMOBJS) $(VIDEOOBJS) \
 		$(DESCOBJS) $(INTOBJS)
 IMG=$(OS).img
