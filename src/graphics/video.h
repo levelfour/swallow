@@ -31,13 +31,12 @@ typedef struct {
 	int bc;		// background color
 } CURSOR;
 
-extern CURSOR _cursor;
-
 void print(char c, unsigned char foreColor, unsigned char backColor, int x, int y);
 void printchar(const char c);
 void printstr(const char *str);
 void init_screen();
 void clear();
 void set_cursor(int x, int y, int fc, int bc);
+void refresh();
 
 #endif // __VIDEO_H

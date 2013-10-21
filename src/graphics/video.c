@@ -1,5 +1,6 @@
 #include "video.h"
 #include "string.h"
+#include "asm_func.h"
 
 CURSOR _cursor;
 
@@ -40,6 +41,11 @@ void printstr(const char *str) {
 void init_screen() {
 	set_cursor(0, 0, COLOR_WHITE, COLOR_BLACK);
 	clear();
+	int i;
+	for(i = 0; i < MAX_XY; i++) {
+		printchar(' ');
+	}
+	set_cursor(0, 0, COLOR_WHITE, COLOR_BLACK);
 }
 
 void clear() {
@@ -58,3 +64,10 @@ void set_cursor(int x, int y, int fc, int bc) {
 	if(bc >= 0) _cursor.bc = bc;
 }
 
+void refresh() {
+	int cursor_position = _cursor.y * MAX_X + _cursor.x;
+	outb(0x3d4, 15);
+	outb(0x3d5, cursor_position);
+	outb(0x3d4, 14);
+	outb(0x3d5, cursor_position >> 8);
+}

@@ -2,7 +2,7 @@
 
 .global sti, cli
 .global load_gdtr, load_idtr
-.global out, in
+.global outb, inb
 
 .text
 sti:
@@ -26,19 +26,16 @@ _flush_seg:
 	ret
 
 load_idtr:
-#	movw 4(%esp), %ax
-#	movw %ax, 6(%esp)
-#	lidt 6(%esp)
 	lidt 4(%esp)
 	ret
 
-out:
+outb:
 	movl 4(%esp), %edx
 	movb 8(%esp), %al
 	outb %al, %dx
 	ret
 
-in:
+inb:
 	movl 4(%esp), %edx	# port
 	xorl %eax, %eax
 	inb %dx, %al

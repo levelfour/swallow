@@ -13,7 +13,6 @@ char message[] =
 
 void _kernel_entry(uint magic, MULTIBOOT_INFO *info) {
 	init_screen();
-	set_cursor(CURSOR_DEFAULT, CURSOR_DEFAULT, COLOR_LIGHT_CYAN, CURSOR_DEFAULT);
 	printf(message);
 
 	set_segment_descriptor_table();
@@ -30,6 +29,7 @@ void _kernel_entry(uint magic, MULTIBOOT_INFO *info) {
 			if(c == 0x1c) printf("\n>>> ");
 			sti();
 		}
+		refresh();
 		asm("hlt");
 	}
 }
