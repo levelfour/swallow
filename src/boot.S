@@ -20,8 +20,8 @@ entry:
 	pushl $0x0
 	popf
 
-	push %ebx		# push MULTIBOOT_HEADER_MAGIC
-	push %eax		# push multiboot info structure pointer
+	push %ebx		# push multiboot info structure pointer
+	push %eax		# push MULTIBOOT_HEADER_MAGIC
 
 	call _kernel_entry
 

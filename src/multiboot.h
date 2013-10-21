@@ -13,6 +13,7 @@
 #define MBH_FLAG_ENABLE_ADDR			0x00010000
 
 #define MULTIBOOT_HEADER_MAGIC			0x1BADB002
+#define MULTIBOOT_CHECK_MAGIC			0x2BADB002
 #define MULTIBOOT_HEADER_FLAGS			(MBH_FLAG_PAGE_ALIGN | MBH_FLAG_MEMORY_INFO)
 #define MULTIBOOT_HEADER_CHECKSUM		-(MULTIBOOT_HEADER_MAGIC+MULTIBOOT_HEADER_FLAGS)
 #define KERNEL_STACK_SIZE				0x00100000
@@ -28,6 +29,8 @@
 #ifndef __MULTIBOOT_HEADER
 
 #include "types.h"
+
+#define CHECK_MBH_FLAG(flags, bit)	((flags) & (1 << bit))
 
 // multiboot header
 typedef struct {
