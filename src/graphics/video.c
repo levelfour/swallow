@@ -24,6 +24,9 @@ void printchar(const char c) {
 			_cursor.x = 0;
 			_cursor.y++;
 			break;
+		case '\016':
+			print(' ', _cursor.fc, _cursor.bc, --_cursor.x, _cursor.y);
+			break;
 		case '\0':
 			break;
 		default:

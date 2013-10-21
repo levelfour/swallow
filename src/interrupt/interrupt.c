@@ -4,7 +4,7 @@
 KEYBUF keybuf;
 
 const char keytable[0x54] =
-	"\0\0001234567890-^\0\0"
+	"\0\0001234567890-^\016\0"
 	"qwertyuiop@[\0\0"
 	"asdfghjkl;:\0\0]"
 	"zxcvbnm,./\0*\0 "
