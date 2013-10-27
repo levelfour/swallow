@@ -2,7 +2,7 @@ MAKE=make
 
 .PHONY: default
 default:
-	cd src; $(MAKE) tar
+	cd src; $(MAKE) install
 	mv src/fd.img .
 
 .PHONY: clean

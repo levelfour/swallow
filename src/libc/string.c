@@ -13,3 +13,8 @@ char *strcpy(char *str1, const char *str2) {
 	} while(*str2);
 	return ret;
 }
+
+void memset(void *s, unsigned char c, int size) {
+	unsigned char *p	= (unsigned char *)s;
+	while(size--) *p++ = c;
+}

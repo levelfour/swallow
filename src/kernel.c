@@ -5,6 +5,7 @@
 #include "idt.h"
 #include "asm_func.h"
 #include "interrupt.h"
+#include "memory.h"
 
 char message[] = 
 	"********** Welcome to myOS **********\n\n"
@@ -27,6 +28,7 @@ void _kernel_entry(uint magic, MULTIBOOT_INFO *info) {
 		printf(" Boot Device : 0x%x\n", info->boot_device);
 	if(CHECK_MBH_FLAG(info->flags, 2))
 		printf(" cmdline = \"%s\"\n", info->cmdline);
+	printf("kernel size = 0x%x\n", get_kernel_size());
 	printf("*************************************\n\n");
 
 	set_segment_descriptor_table();

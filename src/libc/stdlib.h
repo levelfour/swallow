@@ -3,6 +3,8 @@
 
 #include "types.h"
 
+#define NULL	0x0
+
 char *itoa(int val, char *str, int radix);
 char *utoa(uint val, char *str, int radix); 
 

@@ -6,7 +6,7 @@ CC=$(XCOMPILER)/i686-elf-gcc
 AS=$(XCOMPILER)/i686-elf-as
 LD=$(XCOMPILER)/i686-elf-ld
 BINOPT=-nostdlib -fno-builtin
-INCLUDE=-I./asm/ -I./libc/ -I./graphics/ -I./desc/ -I./interrupt/
+INCLUDE=-I./asm/ -I./libc/ -I./graphics/ -I./desc/ -I./interrupt/ -I./memory/
 CCOPT=$(BINOPT) $(INCLUDE) -Wall
 
 OBJSRC=../obj
@@ -14,8 +14,9 @@ ASMOBJS=$(OBJSRC)/asm_func.o $(OBJSRC)/inthandler.o
 VIDEOOBJS=$(OBJSRC)/video.o
 DESCOBJS=$(OBJSRC)/gdt.o $(OBJSRC)/idt.o
 INTOBJS=$(OBJSRC)/interrupt.o
+MEMOBJS=$(OBJSRC)/memory.o
 BOOTOBJS=$(OBJSRC)/boot.o $(OBJSRC)/kernel.o $(ASMOBJS) $(VIDEOOBJS) \
-		$(DESCOBJS) $(INTOBJS)
+		$(DESCOBJS) $(INTOBJS) $(MEMOBJS)
 IMG=$(OS).img
 
 EMULATOR=qemu-system-i386
@@ -42,6 +43,9 @@ $(OBJSRC)/%.o: desc/%.c
 $(OBJSRC)/%.o: interrupt/%.c
 	$(CC) -c interrupt/$*.c $(CCOPT) -o $(OBJSRC)/$*.o
 
+$(OBJSRC)/%.o: memory/%.c
+	$(CC) -c memory/$*.c $(CCOPT) -o $(OBJSRC)/$*.o
+
 $(OBJSRC)/%.o: asm/%.S
 	$(AS) asm/$*.S -o $(OBJSRC)/$*.o
 
@@ -49,7 +53,7 @@ $(OBJSRC)/%.o: asm/%.S
 img: $(BOOTOBJS)
 	$(MAKE)
 
-tar: $(IMG)
+install: $(IMG)
 	mformat -f 1440 -C -i fd.img ::
 	tar cvf fd.img $(IMG)
 
