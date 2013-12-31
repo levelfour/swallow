@@ -17,17 +17,25 @@ void _kernel_entry(uint magic, MULTIBOOT_INFO *info) {
 	init_pic();
 	init_interrupt();
 
+	bool is_extended = false;
 	printf(">>> ");
 	while(1) {
 		if(is_keyupdated()) {
 			cli();
 			unsigned char c = get_keycode();
+			if(is_extended) {
+				is_extended = false;
+				continue;
+			}
 			if(c < 0x80) printf("%c", keytable[c]);
-			if(c == 0x1c) printf("\n>>> ");
+			if(c == 0x1c) printf(">>> ");
+			if(c == 0xe0) {
+				is_extended = true;
+				continue;
+			}
 			sti();
 		}
 		refresh();
-		asm("hlt");
 	}
 }
 
