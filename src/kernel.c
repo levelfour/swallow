@@ -7,30 +7,11 @@
 #include "interrupt.h"
 #include "memory.h"
 
-char message[] = 
-	"********** Welcome to myOS **********\n\n"
-	" this OS is under construction.\n\n"
-	"************* Boot Info *************\n";
+void print_loadinfo(uint magic, MULTIBOOT_INFO *info);
 
 void _kernel_entry(uint magic, MULTIBOOT_INFO *info) {
 	init_screen();
-	if(magic != MULTIBOOT_CHECK_MAGIC) {
-		printf("Error: invalid magic '%x'\n", magic);
-		return;
-	}
-
-	printf(message);
-	if(CHECK_MBH_FLAG(info->flags, 0)) {
-		int memory_size = (info->mem_lower + info->mem_upper + 1024) / 1024;
-		printf(" Total Memory: %d[MB]\n", memory_size);
-	}
-	if(CHECK_MBH_FLAG(info->flags, 1))
-		printf(" Boot Device : 0x%x\n", info->boot_device);
-	if(CHECK_MBH_FLAG(info->flags, 2))
-		printf(" cmdline = \"%s\"\n", info->cmdline);
-	printf("kernel size = 0x%x\n", get_kernel_size());
-	printf("*************************************\n\n");
-
+	print_loadinfo(magic, info);
 	set_segment_descriptor_table();
 	set_interrupt_descriptor_table();
 	init_pic();
@@ -48,4 +29,28 @@ void _kernel_entry(uint magic, MULTIBOOT_INFO *info) {
 		refresh();
 		asm("hlt");
 	}
+}
+
+char message[] = 
+	"********** Welcome to myOS **********\n\n"
+	" this OS is under construction.\n\n"
+	"************* Boot Info *************\n";
+
+void print_loadinfo(uint magic, MULTIBOOT_INFO *info) {
+	if(magic != MULTIBOOT_CHECK_MAGIC) {
+		printf("Error: invalid magic '%x'\n", magic);
+		return;
+	}
+
+	printf(message);
+	if(CHECK_MBH_FLAG(info->flags, 0)) {
+		int memory_size = (info->mem_lower + info->mem_upper + 1024) / 1024;
+		printf(" Total Memory: %d[MB]\n", memory_size);
+	}
+	if(CHECK_MBH_FLAG(info->flags, 1))
+		printf(" Boot Device : 0x%x\n", info->boot_device);
+	if(CHECK_MBH_FLAG(info->flags, 2))
+		printf(" cmdline = \"%s\"\n", info->cmdline);
+	printf(" kernel size = 0x%x\n", get_kernel_size());
+	printf("*************************************\n\n");
 }
